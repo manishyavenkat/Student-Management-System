@@ -1,0 +1,100 @@
+#include <stdio.h>
+
+#define MAX_STUDENTS 50
+#define MAX_NAME_LENGTH 50
+
+struct Student {
+    char name[MAX_NAME_LENGTH];
+    int id;
+    float grade;
+};
+
+struct Student students[MAX_STUDENTS];
+int numStudents = 0;
+
+void addStudent() {
+    if (numStudents < MAX_STUDENTS) {
+        printf("Enter student name: ");
+        scanf("%s", students[numStudents].name);
+        printf("Enter student ID: ");
+        scanf("%d", &students[numStudents].id);
+        printf("Enter student grade: ");
+        scanf("%f", &students[numStudents].grade);
+        numStudents++;
+        printf("Student added successfully!\n");
+    } else {
+        printf("Maximum number of students reached!\n");
+    }
+}
+
+void updateGrade() {
+    int id;
+    printf("Enter student ID to update grade: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < numStudents; i++) {
+        if (students[i].id == id) {
+            printf("Enter new grade for %s: ", students[i].name);
+            scanf("%f", &students[i].grade);
+            printf("Grade updated successfully!\n");
+            return;
+        }
+    }
+
+    printf("Student with ID %d not found!\n", id);
+}
+
+void displayReport() {
+    printf("Student Grade Report:\n");
+    printf("-------------------------------------------------\n");
+    printf("ID\tName\t\tGrade\n");
+    printf("-------------------------------------------------\n");
+    for (int i = 0; i < numStudents; i++) {
+        printf("%d\t%s\t\t%.2f\n", students[i].id, students[i].name, students[i].grade);
+    }
+    printf("-------------------------------------------------\n");
+}
+
+float calculateAverage() {
+    float sum = 0;
+    for (int i = 0; i < numStudents; i++) {
+        sum += students[i].grade;
+    }
+    return sum / numStudents;
+}
+
+int main() {
+    int choice;
+    do {
+        printf("\nStudent Grade Management System\n");
+        printf("1. Add Student\n");
+        printf("2. Update Grade\n");
+        printf("3. Display Report\n");
+        printf("4. Calculate Average Grade\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                updateGrade();
+                break;
+            case 3:
+                displayReport();
+                break;
+            case 4:
+                printf("Average Grade: %.2f\n", calculateAverage());
+                break;
+            case 5:
+                printf("Exiting program. Goodbye!\n");
+                break;
+            default:
+                printf("Invalid choice! Please enter a valid option.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}
